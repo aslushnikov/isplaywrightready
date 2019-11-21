@@ -44,6 +44,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   for (const excludedClass of excludedClasses) {
     delete webkitDiff[excludedClass];
+    delete chromiumDiff[excludedClass];
     delete firefoxDiff[excludedClass];
   }
 
