@@ -1,16 +1,44 @@
-/**
- * This script is supposed to be run from the root of Puppeteer
- * repository.
- */
+const path = require('path');
+
+const {TestRunner} = require('./playwright/utils/testrunner/');
+const utils = require('./playwright/test/utils');
+const {addTests} = require('./playwright/test/playwright.spec.js');
 
 const chromeAPI = require('./playwright/lib/chromium/api.js');
 const chromeEvents = require('./playwright/lib/chromium/events.js').Events;
-
 const wkAPI = require('./playwright/lib/webkit/api.js');
 const wkEvents = require('./playwright/lib/webkit/events.js').Events;
-
 const ffAPI = require('./playwright/lib/firefox/api.js');
 const ffEvents = require('./playwright/lib/firefox/events.js').Events;
+
+const firefoxTests = testsForProduct('Firefox');
+const chromiumTests = testsForProduct('Chromium');
+const webkitTests = testsForProduct('WebKit');
+const goalSuite = intersectSets(firefoxTests.all, chromiumTests.all, webkitTests.all);
+const skippedSuite = intersectSets(goalSuite, joinSets(firefoxTests.skipped, chromiumTests.skipped, webkitTests.skipped));
+
+console.log(JSON.stringify({
+  webkitDiff: apiDiff(chromeAPI, chromeEvents, wkAPI, wkEvents),
+  firefoxDiff: apiDiff(chromeAPI, chromeEvents, ffAPI, ffEvents),
+  tests: {
+    firefox: {
+      total: firefoxTests.all.size,
+      pass: firefoxTests.all.size - firefoxTests.skipped.size,
+    },
+    chromium: {
+      total: chromiumTests.all.size,
+      pass: chromiumTests.all.size - chromiumTests.skipped.size,
+    },
+    webkit: {
+      total: webkitTests.all.size,
+      pass: webkitTests.all.size - webkitTests.skipped.size,
+    },
+    all: {
+      total: goalSuite.size,
+      pass: goalSuite.size - skippedSuite.size,
+    }
+  },
+}));
 
 function apiDiff(chromeAPI, allChromeEvents, otherAPI, allOtherEvents) {
   const diff = {};
@@ -43,7 +71,46 @@ function publicEventNames(events, className) {
   return Object.entries(events[className] || {}).filter(([name, value]) => typeof value === 'string').map(([name, value]) => value);
 }
 
-console.log(JSON.stringify({
-  webkitDiff: apiDiff(chromeAPI, chromeEvents, wkAPI, wkEvents),
-  firefoxDiff: apiDiff(chromeAPI, chromeEvents, ffAPI, ffEvents),
-}));
+
+/**
+ * @param {string} product 
+ */
+function testsForProduct(product) {
+  const testRunner = new TestRunner();
+  addTests({
+    product,
+    playwrightPath: path.join(utils.projectRoot(), `${product.toLowerCase()}.js`),
+    testRunner
+  });
+  const all = new Set(testRunner.tests().map(test => test.fullName));
+  const skipped = new Set(testRunner.tests().filter(test => test.declaredMode === 'skip').map(test => test.fullName));
+  return {
+    all,
+    skipped,
+  }
+}
+
+/**
+ * @param  {...Set} sets 
+ */
+function intersectSets(...sets) {
+  if (!sets.length)
+    return new Set();
+  const intersect = new Set();
+  const [first, ...rest] = sets;
+  outer: for (const item of first) {
+    for (const set of rest)
+      if (!set.has(item))
+        continue outer;
+    intersect.add(item);
+  }
+  return intersect;
+}
+
+function joinSets(...sets) {
+  const joined = new Set();
+  for (const set of sets)
+    for (const item of set)
+      joined.add(item);
+  return joined;
+}

@@ -21,7 +21,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   else if (24 * 60 * 60 * 1000 <= diff)
     time = `${Math.round(diff / 24 / 60 / 60 / 1000)} days ago`;
 
-  const {webkitDiff, firefoxDiff} = json;
+  const {webkitDiff, firefoxDiff, tests} = json;
   const chromiumDiff = JSON.parse(JSON.stringify(webkitDiff));
   for (const [className, coverage] of Object.entries(chromiumDiff)) {
     for (const methodName of Object.keys(coverage.methods))
@@ -69,13 +69,34 @@ window.addEventListener('DOMContentLoaded', async () => {
   ]);
 
   const columns = [
-    {name: 'Chromium', diff: chromiumDiff},
-    {name: 'Firefox', diff: firefoxDiff},
-    {name: 'WebKit', diff: webkitDiff},
+    {name: 'Chromium', diff: chromiumDiff, testCoverage: tests.chromium},
+    {name: 'Firefox', diff: firefoxDiff, testCoverage: tests.firefox},
+    {name: 'WebKit', diff: webkitDiff, testCoverage: tests.webkit},
   ];
+  console.log(tests);
+
+  const allTestCoverage = Math.round(tests.all.pass / tests.all.total * 100);
+  document.body.append(html`
+    <section class=content>
+      <div style='text-align: center'>
+        <img class=logo src='./pptrwk.png'></img>
+      </div>
+      <div class=title>
+        Is <a target=_blank href="https://github.com/microsoft/playwright">PlayWright</a> Ready?
+      </div>
+      <div style="display:flex; align-items: center; justify-content: center">
+        <ul>
+          <li>Last updated: <b>${time}</b></li>
+          <li>Tests passing in all browsers: <b>${allTestCoverage}%</b> (${tests.all.pass}/${tests.all.total})</li>
+        </ul>
+      </div>
+      <div class=apidiff>
+      </div>
+    </section>
+  `);
 
   for (const column of columns) {
-    const {name, diff} = column;
+    const {name, diff, testCoverage} = column;
     let supportedAPI = 0;
     let totalAPI = 0;
     Object.entries(diff).forEach(([className, coverage]) => {
@@ -91,13 +112,13 @@ window.addEventListener('DOMContentLoaded', async () => {
       });
     });
     const apiCoverage = Math.round(supportedAPI / totalAPI * 100);
-    const testCoverage = Math.round(json.webkitTests / json.allTests * 100);
+    const testPercentage = Math.round(testCoverage.pass / testCoverage.total * 100);
     $('.apidiff').appendChild(html`
       <api-status>
         <browser-name>${name}</browser-name>
         <ul>
           <li>Supported API: <b>${apiCoverage}%</b> (${supportedAPI}/${totalAPI})</li>
-          <li>Last updated: <b>${time}</b></li>
+          <li>Tests Passing: <b>${testPercentage}%</b> (${testCoverage.pass}/${testCoverage.total})</li>
         </ul>
         <h4>Implemented API</h4>
         <ul>${Object.entries(diff).map(([className, classCoverage]) => html`
@@ -117,7 +138,6 @@ window.addEventListener('DOMContentLoaded', async () => {
         </ul>
       </api-status>
     `);
-
   }
 
   function lower(text) {
