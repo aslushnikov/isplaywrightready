@@ -35,6 +35,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     'Coverage',
     'Geolocation',
     'PDF',
+    'Interception',
     'Accessibility',
     'Permissions',
     'Worker',
