@@ -31,12 +31,12 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 
   const excludedClasses = [
+    'Chromium',
     'Coverage',
     'Geolocation',
     'PDF',
     'Accessibility',
     'Permissions',
-    'Tracing',
     'Worker',
     'Workers',
     'CDPSession',
