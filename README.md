@@ -1,4 +1,4 @@
-# Is Puppeteer-WebKit Ready?
+# Is PlayWright Ready?
 
-Tip of tree status of Puppeteer-WebKit, updated every 5 minutes.
+Tip of tree status of all PlayWright browsers.
 
