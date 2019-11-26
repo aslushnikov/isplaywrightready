@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   const excludedClasses = [
     'Chromium',
     'Coverage',
-    'Geolocation',
+    'Overrides',
     'PDF',
     'Interception',
     'Accessibility',
