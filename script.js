@@ -38,6 +38,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     'Interception',
     'Accessibility',
     'Permissions',
+    'Target',
     'Worker',
     'Workers',
     'CDPSession',
