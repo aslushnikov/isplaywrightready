@@ -11,27 +11,41 @@ const wkEvents = require('./playwright/lib/webkit/events.js').Events;
 const ffAPI = require('./playwright/lib/firefox/api.js');
 const ffEvents = require('./playwright/lib/firefox/events.js').Events;
 
-const firefoxTests = testsForProduct('Firefox');
 const chromiumTests = testsForProduct('Chromium');
+const firefoxTests = testsForProduct('Firefox');
 const webkitTests = testsForProduct('WebKit');
+
 const goalSuite = intersectSets(firefoxTests.all, chromiumTests.all, webkitTests.all);
-const skippedSuite = intersectSets(goalSuite, joinSets(firefoxTests.skipped, chromiumTests.skipped, webkitTests.skipped));
+const goalChromiumTests = {
+  all: intersectSets(chromiumTests.all, goalSuite),
+  skipped: intersectSets(chromiumTests.skipped, goalSuite)
+};
+const goalFirefoxTests = {
+  all: intersectSets(firefoxTests.all, goalSuite),
+  skipped: intersectSets(firefoxTests.skipped, goalSuite)
+};
+const goalWebkitTests = {
+  all: intersectSets(webkitTests.all, goalSuite),
+  skipped: intersectSets(webkitTests.skipped, goalSuite)
+};
+
+const skippedSuite = intersectSets(goalSuite, joinSets(goalFirefoxTests.skipped, goalChromiumTests.skipped, goalWebkitTests.skipped));
 
 console.log(JSON.stringify({
   webkitDiff: apiDiff(chromeAPI, chromeEvents, wkAPI, wkEvents),
   firefoxDiff: apiDiff(chromeAPI, chromeEvents, ffAPI, ffEvents),
   tests: {
-    firefox: {
-      total: firefoxTests.all.size,
-      pass: firefoxTests.all.size - firefoxTests.skipped.size,
-    },
     chromium: {
-      total: chromiumTests.all.size,
-      pass: chromiumTests.all.size - chromiumTests.skipped.size,
+      total: goalChromiumTests.all.size,
+      pass: goalChromiumTests.all.size - goalChromiumTests.skipped.size,
+    },
+    firefox: {
+      total: goalFirefoxTests.all.size,
+      pass: goalFirefoxTests.all.size - goalFirefoxTests.skipped.size,
     },
     webkit: {
-      total: webkitTests.all.size,
-      pass: webkitTests.all.size - webkitTests.skipped.size,
+      total: goalWebkitTests.all.size,
+      pass: goalWebkitTests.all.size - goalWebkitTests.skipped.size,
     },
     all: {
       total: goalSuite.size,
@@ -73,7 +87,7 @@ function publicEventNames(events, className) {
 
 
 /**
- * @param {string} product 
+ * @param {string} product
  */
 function testsForProduct(product) {
   const testRunner = new TestRunner();
@@ -91,7 +105,7 @@ function testsForProduct(product) {
 }
 
 /**
- * @param  {...Set} sets 
+ * @param  {...Set} sets
  */
 function intersectSets(...sets) {
   if (!sets.length)
