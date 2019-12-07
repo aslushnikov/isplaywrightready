@@ -113,15 +113,18 @@ window.addEventListener('DOMContentLoaded', async () => {
           ++supportedAPI;
       });
     });
-    const apiCoverage = Math.round(supportedAPI / totalAPI * 100);
     const testPercentage = Math.round(testCoverage.pass / testCoverage.total * 100);
+    const missingAPI = totalAPI - supportedAPI;
+    const apiStatus = missingAPI ? html`<b style="color: red">${missingAPI}</b> to go (${supportedAPI}/${totalAPI})` : html`<b style="color: green">OK</b> (${totalAPI})`;
+    const goalSkipped = testCoverage.goalTotal - testCoverage.goalPass;
+    const testStatus = goalSkipped ? html`<b style="color: red">${goalSkipped}</b> to go (${testCoverage.goalPass}/${testCoverage.goalTotal})` : html`<b style="color: green">OK</b> (${testCoverage.goalTotal})`;
     $('.apidiff').appendChild(html`
       <api-status>
         <browser-name>${name}</browser-name>
         <ul>
-          <li>API: <b>${apiCoverage}%</b> (${supportedAPI}/${totalAPI})</li>
-          <li>Tests: <b>${testPercentage}%</b> (${testCoverage.goalPass}/${testCoverage.goalTotal})</li>
-          <li>Optional Tests: <b>${testPercentage}%</b> (${testCoverage.pass - testCoverage.goalPass}/${testCoverage.total - testCoverage.goalTotal})</li>
+          <li>API: ${apiStatus}</li>
+          <li>Tests: ${testStatus}</li>
+          <li>All Tests: <b>${testPercentage}%</b> (${testCoverage.pass}/${testCoverage.total})</li>
         </ul>
         <h4>Implemented API</h4>
         <ul>${Object.entries(diff).map(([className, classCoverage]) => html`
