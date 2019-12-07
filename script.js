@@ -119,8 +119,9 @@ window.addEventListener('DOMContentLoaded', async () => {
       <api-status>
         <browser-name>${name}</browser-name>
         <ul>
-          <li>Supported API: <b>${apiCoverage}%</b> (${supportedAPI}/${totalAPI})</li>
-          <li>Tests Passing: <b>${testPercentage}%</b> (${testCoverage.pass}/${testCoverage.total})</li>
+          <li>API: <b>${apiCoverage}%</b> (${supportedAPI}/${totalAPI})</li>
+          <li>Tests: <b>${testPercentage}%</b> (${testCoverage.goalPass}/${testCoverage.goalTotal})</li>
+          <li>Optional Tests: <b>${testPercentage}%</b> (${testCoverage.pass - testCoverage.goalPass}/${testCoverage.total - testCoverage.goalTotal})</li>
         </ul>
         <h4>Implemented API</h4>
         <ul>${Object.entries(diff).map(([className, classCoverage]) => html`

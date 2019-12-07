@@ -36,16 +36,22 @@ console.log(JSON.stringify({
   firefoxDiff: apiDiff(chromeAPI, chromeEvents, ffAPI, ffEvents),
   tests: {
     chromium: {
-      total: goalChromiumTests.all.size,
-      pass: goalChromiumTests.all.size - goalChromiumTests.skipped.size,
+      total: chromiumTests.all.size,
+      pass: chromiumTests.all.size - chromiumTests.skipped.size,
+      goalTotal: goalChromiumTests.all.size,
+      goalPass: goalChromiumTests.all.size - goalChromiumTests.skipped.size,
     },
     firefox: {
-      total: goalFirefoxTests.all.size,
-      pass: goalFirefoxTests.all.size - goalFirefoxTests.skipped.size,
+      total: firefoxTests.all.size,
+      pass: firefoxTests.all.size - firefoxTests.skipped.size,
+      goalTotal: goalFirefoxTests.all.size,
+      goalPass: goalFirefoxTests.all.size - goalFirefoxTests.skipped.size,
     },
     webkit: {
-      total: goalWebkitTests.all.size,
-      pass: goalWebkitTests.all.size - goalWebkitTests.skipped.size,
+      total: webkitTests.all.size,
+      pass: webkitTests.all.size - webkitTests.skipped.size,
+      goalTotal: goalWebkitTests.all.size,
+      goalPass: goalWebkitTests.all.size - goalWebkitTests.skipped.size,
     },
     all: {
       total: goalSuite.size,
