@@ -9,6 +9,7 @@ body {
   margin: 0 auto;
   flex-direction: column;
   display: flex;
+  position: relative;
 }
 
 .logo {
@@ -28,10 +29,13 @@ body {
 }
 
 .apidiff {
-  display: inline-flex;
+  display: flex;
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 0px;
   align-self: center;
+  flex: auto;
+  width: 100%;
+  overflow: hidden;
 }
 
 browser-name {
@@ -64,6 +68,18 @@ a {
   color: green;
 }
 
+ul {
+  padding-inline-start: 0;
+}
+
 li {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+api-status {
+  width: 30%;
+  flex: auto;
+  margin: 10px;
 }

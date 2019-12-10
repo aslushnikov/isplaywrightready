@@ -99,60 +99,26 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   for (const column of columns) {
     const {name, diff, testCoverage} = column;
-    let supportedAPI = 0;
-    let totalAPI = 0;
-    Object.entries(diff).forEach(([className, coverage]) => {
-      Object.entries(coverage.methods).forEach(([methodName, status]) => {
-        ++totalAPI;
-        if (status)
-          ++supportedAPI;
-      });
-      Object.values(coverage.events).forEach(status => {
-        ++totalAPI;
-        if (status)
-          ++supportedAPI;
-      });
-    });
     const testPercentage = Math.round(testCoverage.pass / testCoverage.total * 100);
-    const missingAPI = totalAPI - supportedAPI;
-    const apiStatus = missingAPI ? html`<b style="color: red">${missingAPI}</b> to go (${supportedAPI}/${totalAPI})` : html`<b style="color: green">OK</b> (${totalAPI})`;
     const goalSkipped = testCoverage.goalTotal - testCoverage.goalPass;
-    const testStatus = goalSkipped ? html`<b style="color: red">${goalSkipped}</b> to go (${testCoverage.goalPass}/${testCoverage.goalTotal})` : html`<b style="color: green">OK</b> (${testCoverage.goalTotal})`;
+    const testStatus = goalSkipped ? html`<b style="color: red">${goalSkipped}</b> skipped (${testCoverage.goalPass}/${testCoverage.goalTotal})` : html`<b style="color: green">OK</b> (${testCoverage.goalTotal})`;
     $('.apidiff').appendChild(html`
       <api-status>
         <browser-name>${name}</browser-name>
         <ul>
-          <li>API: ${apiStatus}</li>
           <li>Tests: ${testStatus}</li>
           <li>All Tests: <b>${testPercentage}%</b> (${testCoverage.pass}/${testCoverage.total})</li>
         </ul>
-        <h4>Implemented API</h4>
-        <ul>${Object.entries(diff).map(([className, classCoverage]) => html`
-          <li>class: ${className}</li>
-          <ul>${Object.entries(classCoverage.events).map(([eventName, status]) => html`
-            <li class=${status ? 'supported': 'missing'}>${lower(className)}.on('${eventName}')</li>
-          `)}
-          </ul>
-          <ul>${Object.entries(classCoverage.methods).map(([methodName, status]) => {
-            const cls = status ? 'supported' : 'missing';
-            return html`
-            <li class=${cls}>${lower(className)}.${methodName}()</li>
-            `;
-          })}
-          </ul>
-        `)}
-        </ul>
+        <ul>${testCoverage.goalSkipped.map(test => html`<li title=${test}>${trim(test)}</li>`)}</ul>
       </api-status>
     `);
   }
 
-  function lower(text) {
-    if (text === 'CDPSession')
-      return 'cdpSession';
-    if (text === 'JSHandle')
-      return 'jsHandle';
-    if (text === 'PDF')
-      return 'pdf';
-    return text.substring(0, 1).toLowerCase() + text.substring(1);
+  function trim(text) {
+    if (text.startsWith('Browser Page '))
+      return text.substring('Browser Page '.length);
+    if (text.startsWith('Playwright '))
+      return text.substring('Playwright '.length);
+    return text;
   }
 }, false);

@@ -40,18 +40,21 @@ console.log(JSON.stringify({
       pass: chromiumTests.all.size - chromiumTests.skipped.size,
       goalTotal: goalChromiumTests.all.size,
       goalPass: goalChromiumTests.all.size - goalChromiumTests.skipped.size,
+      goalSkipped: [...goalChromiumTests.skipped]
     },
     firefox: {
       total: firefoxTests.all.size,
       pass: firefoxTests.all.size - firefoxTests.skipped.size,
       goalTotal: goalFirefoxTests.all.size,
       goalPass: goalFirefoxTests.all.size - goalFirefoxTests.skipped.size,
+      goalSkipped: [...goalFirefoxTests.skipped]
     },
     webkit: {
       total: webkitTests.all.size,
       pass: webkitTests.all.size - webkitTests.skipped.size,
       goalTotal: goalWebkitTests.all.size,
       goalPass: goalWebkitTests.all.size - goalWebkitTests.skipped.size,
+      goalSkipped: [...goalWebkitTests.skipped]
     },
     all: {
       total: goalSuite.size,
