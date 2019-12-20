@@ -21,59 +21,12 @@ window.addEventListener('DOMContentLoaded', async () => {
   else if (24 * 60 * 60 * 1000 <= diff)
     time = `${Math.round(diff / 24 / 60 / 60 / 1000)} days ago`;
 
-  const {webkitDiff, firefoxDiff, tests} = json;
-  const chromiumDiff = JSON.parse(JSON.stringify(webkitDiff));
-  for (const [className, coverage] of Object.entries(chromiumDiff)) {
-    for (const methodName of Object.keys(coverage.methods))
-      coverage.methods[methodName] = true;
-    for (const eventName of Object.keys(coverage.events))
-      coverage.events[eventName] = true;
-  }
-
-  const excludedClasses = [
-    'Chromium',
-    'Coverage',
-    'Overrides',
-    'PDF',
-    'Interception',
-    'Accessibility',
-    'Permissions',
-    'Target',
-    'Worker',
-    'Workers',
-    'CDPSession',
-  ];
-
-  for (const excludedClass of excludedClasses) {
-    delete webkitDiff[excludedClass];
-    delete chromiumDiff[excludedClass];
-    delete firefoxDiff[excludedClass];
-  }
-
-  const excluded = new Map([
-    ['Coverage', new Set([
-      'startJSCoverage',
-      'stopJSCoverage',
-      'startCSSCoverage',
-      'stopCSSCoverage',
-    ])],
-    ['CDPSession', new Set([
-      'send',
-      'detach',
-    ])],
-    ['Target', new Set([
-      'createCDPSession',
-    ])],
-    ['Tracing', new Set([
-      'start',
-      'stop',
-    ])],
-  ]);
+  const {tests} = json;
 
   const columns = [
-    {name: 'Chromium', diff: chromiumDiff, testCoverage: tests.chromium},
-    {name: 'Firefox', diff: firefoxDiff, testCoverage: tests.firefox},
-    {name: 'WebKit', diff: webkitDiff, testCoverage: tests.webkit},
+    {name: 'Chromium', testCoverage: tests.chromium},
+    {name: 'Firefox', testCoverage: tests.firefox},
+    {name: 'WebKit', testCoverage: tests.webkit},
   ];
   console.log(tests);
 
@@ -98,7 +51,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   `);
 
   for (const column of columns) {
-    const {name, diff, testCoverage} = column;
+    const {name, testCoverage} = column;
     const testPercentage = Math.round(testCoverage.pass / testCoverage.total * 100);
     const goalSkipped = testCoverage.goalTotal - testCoverage.goalPass;
     const testStatus = goalSkipped ? html`<b style="color: red">${goalSkipped}</b> skipped (${testCoverage.goalPass}/${testCoverage.goalTotal})` : html`<b style="color: green">OK</b> (${testCoverage.goalTotal})`;
