@@ -61,7 +61,7 @@ function testsForProduct(product) {
   const testRunner = new TestRunner();
   describe({
     product,
-    playwrightPath: path.join(utils.projectRoot(), `${product.toLowerCase()}.js`),
+    playwrightPath: path.join(__dirname, 'playwright', 'index.js'),
     testRunner
   });
   const all = new Set(testRunner.tests().map(test => test.fullName));
