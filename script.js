@@ -25,8 +25,8 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   const columns = [
     {name: 'Chromium', testCoverage: tests.chromium},
-    {name: 'Firefox', testCoverage: tests.firefox},
     {name: 'WebKit', testCoverage: tests.webkit},
+    {name: 'Firefox', testCoverage: tests.firefox},
   ];
   console.log(tests);
 
