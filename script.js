@@ -33,9 +33,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   const allTestCoverage = Math.round(tests.all.pass / tests.all.total * 100);
   document.body.append(html`
     <section class=content>
-      <div style='text-align: center'>
-        <img class=logo src='./pptrwk.png'></img>
-      </div>
       <div class=title>
         Is <a target=_blank href="https://github.com/microsoft/playwright">PlayWright</a> Ready?
       </div>
