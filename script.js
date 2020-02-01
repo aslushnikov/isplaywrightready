@@ -28,44 +28,50 @@ window.addEventListener('DOMContentLoaded', async () => {
     {name: 'WebKit', testCoverage: tests.webkit},
     {name: 'Firefox', testCoverage: tests.firefox},
   ];
-  console.log(tests);
 
   const allTestCoverage = Math.round(tests.all.pass / tests.all.total * 100);
   document.body.append(html`
-    <section class=content>
-      <div class=title>
-        Is <a target=_blank href="https://github.com/microsoft/playwright">PlayWright</a> Ready?
+    <div class="header">
+      <div class="title">
+        is <a target=_blank href="https://github.com/microsoft/playwright">Playwright</a> ready?
       </div>
-      <div style="display:flex; align-items: center; justify-content: center">
-        <ul>
-          <li>Last updated: <b>${time}</b></li>
-          <li>Tests passing in all browsers: <b>${allTestCoverage}%</b> (${tests.all.pass}/${tests.all.total})</li>
-        </ul>
-      </div>
-      <div class=apidiff>
-      </div>
-    </section>
+      <div class="info">last updated: ${time}</div>
+    </div>
+    <div class="toc">
+    </div>
+    <div class="details">
+    </div>
   `);
 
   for (const column of columns) {
     const {name, testCoverage} = column;
     const testPercentage = Math.round(testCoverage.pass / testCoverage.total * 100);
     const goalSkipped = testCoverage.goalTotal - testCoverage.goalPass;
-    const testStatus = goalSkipped ? html`<b style="color: red">${goalSkipped}</b> skipped (${testCoverage.goalPass}/${testCoverage.goalTotal})` : html`<b style="color: green">OK</b> (${testCoverage.goalTotal})`;
-    $('.apidiff').appendChild(html`
-      <api-status>
-        <browser-name>${name}</browser-name>
-        <ul>
-          <li>Tests: ${testStatus}</li>
-          <li>All Tests: <b>${testPercentage}%</b> (${testCoverage.pass}/${testCoverage.total})</li>
-        </ul>
-        <ul class="test-list">${testCoverage.goalSkipped.map(test => html`
-          <li title=${test.name}>
-            <span>${trim(test.name)}</span>
-            <a href="https://github.com/microsoft/playwright/blob/master/${test.filePath}#L${test.lineNumber}">${test.fileName}:${test.lineNumber}</a>
-          </li>`)}
-        </ul>
-      </api-status>
+    $('.toc').appendChild(html`
+      <div class="toc-entry">
+        <div class="browser-name">${name}</div>
+        <div>
+          <div class="number" style="color: green">${testCoverage.goalPass}</div>
+          <div class="info">pass</div>
+        </div>
+        <div>
+          <div class="number" style="color: red">${goalSkipped}</div>
+          <div class="info">skipped</div>
+        </div>
+      </div>
+    `);
+  }
+
+  for (const column of columns) {
+    const {name, testCoverage} = column;
+    $('.details').appendChild(html`
+      <div class="browser-name">${name}</div>
+      <div class="test-list">${testCoverage.goalSkipped.map(test => html`
+        <div title=${test.name}>
+          <span>${trim(test.name)}</span>
+          <a href="https://github.com/microsoft/playwright/blob/master/${test.filePath}#L${test.lineNumber}">${test.fileName}:${test.lineNumber}</a>
+        </div>`)}
+      </div>
     `);
   }
 
