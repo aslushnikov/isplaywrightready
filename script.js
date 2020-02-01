@@ -59,7 +59,12 @@ window.addEventListener('DOMContentLoaded', async () => {
           <li>Tests: ${testStatus}</li>
           <li>All Tests: <b>${testPercentage}%</b> (${testCoverage.pass}/${testCoverage.total})</li>
         </ul>
-        <ul>${testCoverage.goalSkipped.map(test => html`<li title=${test}>${trim(test)}</li>`)}</ul>
+        <ul class="test-list">${testCoverage.goalSkipped.map(test => html`
+          <li title=${test.name}>
+            <span>${trim(test.name)}</span>
+            <a href="https://github.com/microsoft/playwright/blob/master/${test.filePath}#L${test.lineNumber}">${test.fileName}:${test.lineNumber}</a>
+          </li>`)}
+        </ul>
       </api-status>
     `);
   }

@@ -78,6 +78,21 @@ li {
   white-space: nowrap;
 }
 
+.test-list li {
+  display: flex;
+}
+
+.test-list li > span {
+  flex: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 1em;
+}
+
+.test-list li > a {
+  flex: none;
+}
+
 api-status {
   width: 30%;
   flex: auto;
