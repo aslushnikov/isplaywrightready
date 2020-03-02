@@ -51,16 +51,12 @@ window.addEventListener('DOMContentLoaded', async () => {
       <div class="toc-entry">
         <div class="browser-name">${name}</div>
         <div>
-          <div class="number" style="color: green">${total - skipped}</div>
+          <div class="number" style="color: green">${total - skipped - markedAsFailing}</div>
           <div class="info">pass</div>
         </div>
         <div>
           <div class="number" style="color: red">${markedAsFailing}</div>
           <div class="info">failing</div>
-        </div>
-        <div>
-          <div class="number" style="color: black">${skipped}</div>
-          <div class="info">skipped</div>
         </div>
       </div>
     `);
