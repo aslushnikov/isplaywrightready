@@ -29,7 +29,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     {name: 'Firefox', testCoverage: tests.firefox},
   ];
 
-  const allTestCoverage = Math.round(tests.all.pass / tests.all.total * 100);
   document.body.append(html`
     <div class="header">
       <div class="title">
@@ -45,17 +44,22 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   for (const column of columns) {
     const {name, testCoverage} = column;
-    const testPercentage = Math.round(testCoverage.pass / testCoverage.total * 100);
-    const goalSkipped = testCoverage.goalTotal - testCoverage.goalPass;
+    const total = testCoverage.length;
+    const skipped = testCoverage.filter(test => test.mode === 'skip').length;
+    const markedAsFailing = testCoverage.filter(test => test.mode === 'markAsFailing').length;
     $('.toc').appendChild(html`
       <div class="toc-entry">
         <div class="browser-name">${name}</div>
         <div>
-          <div class="number" style="color: green">${testCoverage.goalPass}</div>
+          <div class="number" style="color: green">${total - skipped}</div>
           <div class="info">pass</div>
         </div>
         <div>
-          <div class="number" style="color: red">${goalSkipped}</div>
+          <div class="number" style="color: red">${markedAsFailing}</div>
+          <div class="info">failing</div>
+        </div>
+        <div>
+          <div class="number" style="color: black">${skipped}</div>
           <div class="info">skipped</div>
         </div>
       </div>
@@ -66,7 +70,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const {name, testCoverage} = column;
     $('.details').appendChild(html`
       <div class="browser-name">${name}</div>
-      <div class="test-list">${testCoverage.goalSkipped.map(test => html`
+      <div class="test-list">${testCoverage.filter(test => test.mode === 'markAsFailing').map(test => html`
         <div title=${test.name}>
           <span>${trim(test.name)}</span>
           <a href="https://github.com/microsoft/playwright/blob/master/${test.filePath}#L${test.lineNumber}">${test.fileName}:${test.lineNumber}</a>
