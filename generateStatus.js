@@ -25,6 +25,7 @@ function testsForProduct(product) {
     return {
       name: test.fullName,
       mode: test.declaredMode,
+      expectation: test.expectation,
       fileName: test.location.fileName,
       filePath: path.relative(__dirname + '/playwright', test.location.filePath),
       lineNumber: test.location.lineNumber,
