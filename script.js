@@ -46,7 +46,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const {name, testCoverage} = column;
     const total = testCoverage.length;
     const skipped = testCoverage.filter(test => test.mode === 'skip').length;
-    const markedAsFailing = testCoverage.filter(test => test.expectation === 'fail').length;
+    const markedAsFailing = testCoverage.filter(test => test.mode !== 'skip' && test.expectation === 'fail').length;
     $('.toc').appendChild(html`
       <div class="toc-entry">
         <div class="browser-name">${name}</div>
@@ -66,7 +66,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const {name, testCoverage} = column;
     $('.details').appendChild(html`
       <div class="browser-name">${name}</div>
-      <div class="test-list">${testCoverage.filter(test => test.expectation === 'fail').map(test => html`
+      <div class="test-list">${testCoverage.filter(test => test.mode !== 'skip' && test.expectation === 'fail').map(test => html`
         <div title=${test.name}>
           <span>${trim(test.name)}</span>
           <a href="https://github.com/microsoft/playwright/blob/master/${test.filePath}#L${test.lineNumber}">${test.fileName}:${test.lineNumber}</a>
