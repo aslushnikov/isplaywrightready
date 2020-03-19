@@ -87,6 +87,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         suite.failingTests.push(test);
     }
     const failingSuites = [...suitesMap.values()].filter(suite => !!suite.failingTests.length);
+    failingSuites.sort((a, b) => (b.failingTests.length / b.allTests.length - a.failingTests.length / a.allTests.length) || (b.failingTests.length - a.failingTests.length));
     $('.details').appendChild(html`
       <div class="browser-name">${name}</div>
       ${failingSuites.map(suite => html`
