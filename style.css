@@ -23,7 +23,7 @@ body {
 }
 
 .details {
-  max-width: 800px;
+  width: 800px;
 }
 
 .title {
@@ -61,14 +61,10 @@ body {
 }
 
 .test-list {
-  margin: 5px 0;
-}
-
-.test-list > div {
-  margin: 5px 0;
+  margin: 5px 0 5px 1em;
 }
 
 .test-list a {
   color: #666;
-  margin: 0 4px;
+  margin-left: 1ex;
 }

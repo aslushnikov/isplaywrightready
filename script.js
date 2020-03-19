@@ -23,10 +23,18 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   const {tests} = json;
 
+  function isSkippedTest(test) {
+    return test.mode === 'skip';
+  }
+
+  function isFailingTest(test) {
+    return test.mode !== 'skip' && test.expectation === 'fail';
+  }
+
   const columns = [
-    {name: 'Chromium', testCoverage: tests.chromium},
-    {name: 'WebKit', testCoverage: tests.webkit},
-    {name: 'Firefox', testCoverage: tests.firefox},
+    {name: 'Chromium', allTests: tests.chromium},
+    {name: 'WebKit', allTests: tests.webkit},
+    {name: 'Firefox', allTests: tests.firefox},
   ];
 
   document.body.append(html`
@@ -43,19 +51,18 @@ window.addEventListener('DOMContentLoaded', async () => {
   `);
 
   for (const column of columns) {
-    const {name, testCoverage} = column;
-    const total = testCoverage.length;
-    const skipped = testCoverage.filter(test => test.mode === 'skip').length;
-    const markedAsFailing = testCoverage.filter(test => test.mode !== 'skip' && test.expectation === 'fail').length;
+    const {name, allTests} = column;
+    const skippedTests = allTests.filter(isSkippedTest);
+    const failingTests = allTests.filter(isFailingTest);
     $('.toc').appendChild(html`
       <div class="toc-entry">
         <div class="browser-name">${name}</div>
         <div>
-          <div class="number" style="color: green">${total - skipped - markedAsFailing}</div>
+          <div class="number" style="color: green">${allTests.length - skippedTests.length - failingTests.length}</div>
           <div class="info">pass</div>
         </div>
         <div>
-          <div class="number" style="color: red">${markedAsFailing}</div>
+          <div class="number" style="color: red">${failingTests.length}</div>
           <div class="info">failing</div>
         </div>
       </div>
@@ -63,15 +70,36 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 
   for (const column of columns) {
-    const {name, testCoverage} = column;
+    const {name, allTests} = column;
+    const suitesMap = new Map();
+    for (const test of allTests) {
+      let suite = suitesMap.get(test.suite);
+      if (!suite) {
+        suite = {
+          name: test.suite,
+          allTests: [],
+          failingTests: [],
+        };
+        suitesMap.set(test.suite, suite);
+      }
+      suite.allTests.push(test);
+      if (isFailingTest(test))
+        suite.failingTests.push(test);
+    }
+    const failingSuites = [...suitesMap.values()].filter(suite => !!suite.failingTests.length);
     $('.details').appendChild(html`
       <div class="browser-name">${name}</div>
-      <div class="test-list">${testCoverage.filter(test => test.mode !== 'skip' && test.expectation === 'fail').map(test => html`
-        <div title=${test.name}>
-          <span>${trim(test.name)}</span>
-          <a href="https://github.com/microsoft/playwright/blob/master/${test.filePath}#L${test.lineNumber}">${test.fileName}:${test.lineNumber}</a>
-        </div>`)}
-      </div>
+      ${failingSuites.map(suite => html`
+        <details>
+          <summary>${suite.name} (<span style="color: red">${suite.failingTests.length}</span> /  ${suite.allTests.length} tests)</summary>
+          <div class="test-list">${suite.failingTests.map(test => html`
+            <div title=${test.name}>
+              <span>${trim(test.name)}</span>
+              <a href="https://github.com/microsoft/playwright/blob/master/${test.filePath}#L${test.lineNumber}">${test.fileName}:${test.lineNumber}</a>
+            </div>`)}
+          </div>
+        </details>
+      `)}
     `);
   }
 

@@ -23,7 +23,8 @@ function testsForProduct(product) {
 
   return testRunner.tests().map(test => {
     return {
-      name: test.fullName,
+      name: test.name,
+      suite: test.suite.fullName,
       mode: test.declaredMode,
       expectation: test.expectation,
       fileName: test.location.fileName,
