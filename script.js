@@ -24,11 +24,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   const {tests} = json;
 
   function isSkippedTest(test) {
-    return test.mode === 'skip';
+    return test.skipped;
   }
 
   function isFailingTest(test) {
-    return test.mode !== 'skip' && test.expectation === 'fail';
+    return !test.skipped && test.markedAsFailing;
   }
 
   const columns = [
