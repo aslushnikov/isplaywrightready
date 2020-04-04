@@ -24,11 +24,15 @@ window.addEventListener('DOMContentLoaded', async () => {
   const {tests} = json;
 
   function isSkippedTest(test) {
-    return test.skipped;
+    return test.skipped.length > 0;
   }
 
   function isFailingTest(test) {
-    return !test.skipped && test.markedAsFailing;
+    return test.markedAsFailing.length > 0;
+  }
+
+  function toPlatform(platform) {
+    return platform === 'darwin' ? 'mac' : platform === 'win32' ? 'win' : 'linux';
   }
 
   const columns = [
@@ -96,6 +100,7 @@ window.addEventListener('DOMContentLoaded', async () => {
           <div class="test-list">${suite.failingTests.map(test => html`
             <div title=${test.name}>
               <span>${trim(test.name)}</span>
+              <span class="platforms">${test.markedAsFailing.length < 3 ? '(' + test.markedAsFailing.map(toPlatform).join(', ') + ')' : null}</span>
               <a href="https://github.com/microsoft/playwright/blob/master/${test.filePath}#L${test.lineNumber}">${test.fileName}:${test.lineNumber}</a>
             </div>`)}
           </div>
