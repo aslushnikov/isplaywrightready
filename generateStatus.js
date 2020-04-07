@@ -1,6 +1,6 @@
 const path = require('path');
 
-const {TestRunner} = require('./playwright/utils/testrunner/');
+const TestRunner = require('./playwright/utils/testrunner/');
 console.log(
   JSON.stringify({
     tests: {
@@ -17,6 +17,8 @@ function testsForProduct(product) {
   for (const platform of ['linux', 'darwin', 'win32']) {
     const testRunner = new TestRunner();
     require('./playwright/test/utils.js').setupTestRunner(testRunner);
+    for (const [key, value] of Object.entries(testRunner.api()))
+      global[key] = value;
     require('./playwright/test/playwright.spec.js').addPlaywrightTests({
       playwrightPath: path.join(__dirname, 'playwright', 'index.js'),
       products: [{ product }],
@@ -28,7 +30,7 @@ function testsForProduct(product) {
       coverage: false,
     });
 
-    for (const test of testRunner.tests()) {
+    for (const test of testRunner._collector.tests()) {
       let skipped = test.skipped();
       let markedAsFailing = test.expectation() === test.Expectations.Fail;
       for (let suite = test.suite(); suite; suite = suite.parentSuite()) {
