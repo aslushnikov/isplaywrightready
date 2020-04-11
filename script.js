@@ -24,11 +24,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   const {tests} = json;
 
   function isSkippedTest(test) {
-    return test.skipped.length > 0;
+    return test.skipped.length === 3;
   }
 
   function isFailingTest(test) {
-    return test.markedAsFailing.length > 0;
+    return test.skipped.length < 3 && test.markedAsFailing.length > 0;
   }
 
   function toPlatform(platform) {
