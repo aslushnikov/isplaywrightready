@@ -6,13 +6,14 @@ git pull origin master
 
 if [ -e ./playwright ]; then
   cd playwright
+  git reset --hard
   git pull origin master
-  npm i
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD npm ci
   cd ..
 else
   git clone --depth 1 git@github.com:microsoft/playwright.git
   cd playwright
-  npm i
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD npm ci
   cd ..
 fi
 
