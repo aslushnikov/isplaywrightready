@@ -8,12 +8,12 @@ if [ -e ./playwright ]; then
   cd playwright
   git reset --hard
   git pull origin master
-  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD npm ci
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm ci
   cd ..
 else
   git clone --depth 1 git@github.com:microsoft/playwright.git
   cd playwright
-  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD npm ci
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm ci
   cd ..
 fi
 
