@@ -9,11 +9,13 @@ if [ -e ./playwright ]; then
   git reset --hard
   git pull origin master
   npm ci
+  npm run build
   cd ..
 else
   git clone --depth 1 git@github.com:microsoft/playwright.git
   cd playwright
   npm ci
+  npm run build
   cd ..
 fi
 

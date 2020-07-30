@@ -101,7 +101,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             <div title=${test.name}>
               <span>${trim(test.name)}</span>
               <span class="platforms">${test.markedAsFailing.length < 3 ? '(' + test.markedAsFailing.map(toPlatform).join(', ') + ')' : null}</span>
-              <a href="https://github.com/microsoft/playwright/blob/master/${test.filePath}#L${test.lineNumber}">${test.fileName}:${test.lineNumber}</a>
+              <a href="https://github.com/microsoft/playwright/blob/master/${test.filePath}">${test.fileName}</a>
             </div>`)}
           </div>
         </details>
