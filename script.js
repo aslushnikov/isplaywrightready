@@ -75,45 +75,38 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   for (const column of columns) {
     const {name, allTests} = column;
-    const suitesMap = new Map();
+    const filesMap = new Map();
     for (const test of allTests) {
-      let suite = suitesMap.get(test.suite);
-      if (!suite) {
-        suite = {
-          name: test.suite,
+      let file = filesMap.get(test.filePath);
+      if (!file) {
+        file = {
+          name: test.fileName,
+          path: test.filePath,
           allTests: [],
           failingTests: [],
         };
-        suitesMap.set(test.suite, suite);
+        filesMap.set(test.filePath, file);
       }
-      suite.allTests.push(test);
+      file.allTests.push(test);
       if (isFailingTest(test))
-        suite.failingTests.push(test);
+        file.failingTests.push(test);
     }
-    const failingSuites = [...suitesMap.values()].filter(suite => !!suite.failingTests.length);
-    failingSuites.sort((a, b) => (b.failingTests.length / b.allTests.length - a.failingTests.length / a.allTests.length) || (b.failingTests.length - a.failingTests.length));
+    const failingFiles = [...filesMap.values()].filter(file => !!file.failingTests.length);
+    failingFiles.sort((a, b) => a.name.localeCompare(b.name));
     $('.details').appendChild(html`
       <div class="browser-name">${name}</div>
-      ${failingSuites.map(suite => html`
-        <details>
-          <summary>${suite.name} (<span style="color: red">${suite.failingTests.length}</span> /  ${suite.allTests.length} tests)</summary>
-          <div class="test-list">${suite.failingTests.map(test => html`
-            <div title=${test.name}>
-              <span>${trim(test.name)}</span>
-              <span class="platforms">${test.markedAsFailing.length < 3 ? '(' + test.markedAsFailing.map(toPlatform).join(', ') + ')' : null}</span>
-              <a href="https://github.com/microsoft/playwright/blob/master/${test.filePath}">${test.fileName}</a>
-            </div>`)}
-          </div>
-        </details>
+      ${failingFiles.map(file => html`
+        <div>
+          <a href="https://github.com/microsoft/playwright/blob/master/${file.path}">${file.name}</a>
+          (<span style="color: red">${file.failingTests.length}</span> /  ${file.allTests.length} tests)
+        </div>
+        <div class="test-list">${file.failingTests.map(test => html`
+          <div title=${test.name}>
+            <span>${test.name}</span>
+            <span class="platforms">${test.markedAsFailing.length < 3 ? '(' + test.markedAsFailing.map(toPlatform).join(', ') + ')' : null}</span>
+          </div>`)}
+        </div>
       `)}
     `);
-  }
-
-  function trim(text) {
-    if (text.startsWith('Browser Page '))
-      return text.substring('Browser Page '.length);
-    if (text.startsWith('Playwright '))
-      return text.substring('Playwright '.length);
-    return text;
   }
 }, false);
