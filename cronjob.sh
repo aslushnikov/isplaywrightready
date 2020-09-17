@@ -8,18 +8,16 @@ if [ -e ./playwright ]; then
   cd playwright
   git reset --hard
   git pull origin master
-  npm ci
-  npm run build
-  cd ..
 else
   git clone --depth 1 git@github.com:microsoft/playwright.git
   cd playwright
-  npm ci
-  npm run build
-  cd ..
 fi
 
-node generateStatus.js > ./status.json
+npm ci
+npm run build
+PWRUNNER_JSON_REPORT=../status.json PWTESTREPORT=1 npm run test -- --trial-run --reporter=json
+cd ..
+node postProcess.js > index.html
 
 if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
   echo 'NO CHANGES'
@@ -30,4 +28,3 @@ git commit -am 'chore: update status.json'
 git push origin master
 
 echo 'PUSHED NEW STATUS!'
-
