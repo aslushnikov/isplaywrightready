@@ -17,7 +17,7 @@ npm ci
 npm run build
 PWRUNNER_JSON_REPORT=../status.json PWTESTREPORT=1 npm run test -- --trial-run --reporter=json
 cd ..
-node postProcess.js > index.html
+node postProcess.js > test.html
 
 if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
   echo 'NO CHANGES'
