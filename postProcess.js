@@ -4,29 +4,33 @@ const path = require('path');
 const report = new Map();
 
 const data = JSON.parse(fs.readFileSync('status.json'));
-for (const suite of data.suites)
-  dumpTests(suite, configurationString(suite.configuration));
+dumpTests(data);
 
-function configurationString(configuration) {
+function parametersString(configuration) {
   return configuration.map(c => `${c.value}`).join('_');
 }
 
-function dumpTests(suite, configuration) {
+function dumpTests(suite) {
   if (suite.suites) {
     for (const child of suite.suites)
-      dumpTests(child, configuration);
+      dumpTests(child);
   }
-  for (const test of suite.tests) {
-    for (const annotation of test.annotations) {
-      if (annotation.type && annotation.type !== 'skip' && annotation.type !== 'slow') {
-        const key = path.basename(test.file) + ' - ' + test.title;
-        let list = report.get(key);
-        if (!list) {
-          list = [];
-          report.set(key, list);
+  for (const spec of suite.specs || []) {
+    for (const test of spec.tests) {
+      const configuration = parametersString(test.parameters);
+      const key = path.basename(spec.file) + ' - ' + spec.title;
+      for (const run of test.runs) {
+        for (const annotation of run.annotations) {
+          if (annotation.type && annotation.type !== 'skip' && annotation.type !== 'slow') {
+            let list = report.get(key);
+            if (!list) {
+              list = [];
+              report.set(key, list);
+            }
+            list.push(configuration + '_' + annotation.type);
+          }
         }
-        list.push(configuration + '_' + annotation.type);
-      }	
+      }
     }
   }
 }
@@ -51,8 +55,11 @@ for (const browserName of ['chromium', 'firefox', 'webkit']) {
 }
 console.log('</tr>');
 
-for (const [key, list] of report) {
-  console.log(`<tr class="${list.join(' ')}">`);
+const keys = [...report.keys()];
+keys.sort();
+
+for (const key of keys) {
+  console.log(`<tr class="${report.get(key).join(' ')}">`);
   console.log(`<td class="title">${key}</td>`)
   for (const browserName of ['chromium', 'firefox', 'webkit']) {
     for (const platform of ['win32', 'darwin', 'linux'])

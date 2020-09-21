@@ -41,18 +41,6 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <th>webkit_linux</th>
 </tr>
 <tr class="webkit_win32_fail">
-<td class="title">browsercontext-cookies.spec.ts - should properly report "Strict" sameSite cookie</td>
-<td class="chromium_win32"></td>
-<td class="chromium_darwin"></td>
-<td class="chromium_linux"></td>
-<td class="firefox_win32"></td>
-<td class="firefox_darwin"></td>
-<td class="firefox_linux"></td>
-<td class="webkit_win32"></td>
-<td class="webkit_darwin"></td>
-<td class="webkit_linux"></td>
-</tr>
-<tr class="webkit_win32_fail">
 <td class="title">browsercontext-cookies.spec.ts - should properly report "Lax" sameSite cookie</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
@@ -64,8 +52,8 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
-<tr class="webkit_win32_fixme webkit_darwin_fixme webkit_linux_fixme">
-<td class="title">browsercontext-page-event.spec.ts - should work with Shift-clicking</td>
+<tr class="webkit_win32_fail">
+<td class="title">browsercontext-cookies.spec.ts - should properly report "Strict" sameSite cookie</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -78,6 +66,18 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 </tr>
 <tr class="webkit_win32_fixme webkit_darwin_fixme webkit_linux_fixme firefox_win32_fixme firefox_darwin_fixme firefox_linux_fixme">
 <td class="title">browsercontext-page-event.spec.ts - should work with Ctrl-clicking</td>
+<td class="chromium_win32"></td>
+<td class="chromium_darwin"></td>
+<td class="chromium_linux"></td>
+<td class="firefox_win32"></td>
+<td class="firefox_darwin"></td>
+<td class="firefox_linux"></td>
+<td class="webkit_win32"></td>
+<td class="webkit_darwin"></td>
+<td class="webkit_linux"></td>
+</tr>
+<tr class="webkit_win32_fixme webkit_darwin_fixme webkit_linux_fixme">
+<td class="title">browsercontext-page-event.spec.ts - should work with Shift-clicking</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -124,8 +124,8 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
-<tr class="chromium_win32_fixme chromium_darwin_fixme chromium_linux_fixme">
-<td class="title">oopif.spec.ts - should get the proper viewport</td>
+<tr class="chromium_win32_fixme chromium_darwin_fixme chromium_linux_fixme webkit_win32_fixme webkit_darwin_fixme webkit_linux_fixme firefox_win32_fixme firefox_darwin_fixme firefox_linux_fixme">
+<td class="title">click-react.spec.ts - should not retarget the handle when element is recycled</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -149,7 +149,7 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_linux"></td>
 </tr>
 <tr class="chromium_win32_fixme chromium_darwin_fixme chromium_linux_fixme webkit_win32_fixme webkit_darwin_fixme webkit_linux_fixme firefox_win32_fixme firefox_darwin_fixme firefox_linux_fixme">
-<td class="title">click-react.spec.ts - should not retarget the handle when element is recycled</td>
+<td class="title">click-react.spec.ts - should retarget when element is recycled before enabled check</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -162,18 +162,6 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 </tr>
 <tr class="chromium_win32_fixme chromium_darwin_fixme chromium_linux_fixme webkit_win32_fixme webkit_darwin_fixme webkit_linux_fixme firefox_win32_fixme firefox_darwin_fixme firefox_linux_fixme">
 <td class="title">click-react.spec.ts - should retarget when element is recycled during hit testing</td>
-<td class="chromium_win32"></td>
-<td class="chromium_darwin"></td>
-<td class="chromium_linux"></td>
-<td class="firefox_win32"></td>
-<td class="firefox_darwin"></td>
-<td class="firefox_linux"></td>
-<td class="webkit_win32"></td>
-<td class="webkit_darwin"></td>
-<td class="webkit_linux"></td>
-</tr>
-<tr class="chromium_win32_fixme chromium_darwin_fixme chromium_linux_fixme webkit_win32_fixme webkit_darwin_fixme webkit_linux_fixme firefox_win32_fixme firefox_darwin_fixme firefox_linux_fixme">
-<td class="title">click-react.spec.ts - should retarget when element is recycled before enabled check</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -197,7 +185,7 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_linux"></td>
 </tr>
 <tr class="chromium_win32_flaky chromium_darwin_flaky chromium_linux_flaky">
-<td class="title">defaultbrowsercontext-2.spec.ts - should restore cookies from userDataDir</td>
+<td class="title">defaultbrowsercontext-2.spec.ts - should accept userDataDir</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -209,7 +197,7 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_linux"></td>
 </tr>
 <tr class="chromium_win32_flaky chromium_darwin_flaky chromium_linux_flaky">
-<td class="title">defaultbrowsercontext-2.spec.ts - should accept userDataDir</td>
+<td class="title">defaultbrowsercontext-2.spec.ts - should restore cookies from userDataDir</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -232,7 +220,7 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
-<tr class="webkit_win32_fail webkit_win32_fail webkit_darwin_fail webkit_darwin_fail webkit_linux_fail webkit_linux_fail">
+<tr class="webkit_win32_fail webkit_darwin_fail webkit_linux_fail webkit_win32_fail webkit_darwin_fail webkit_linux_fail">
 <td class="title">dispatchevent.spec.ts - should dispatch drag drop events</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
@@ -280,8 +268,8 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
-<tr class="chromium_win32_fixme chromium_darwin_fixme chromium_linux_fixme">
-<td class="title">frame-evaluate.spec.ts - should work in iframes that interrupted initial javascript url navigation</td>
+<tr class="chromium_win32_fail chromium_darwin_fail chromium_linux_fail firefox_win32_fixme firefox_darwin_fixme firefox_linux_fixme">
+<td class="title">frame-evaluate.spec.ts - should work in iframes that failed initial navigation</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -292,8 +280,8 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
-<tr class="chromium_win32_fail chromium_darwin_fail chromium_linux_fail firefox_win32_fixme firefox_darwin_fixme firefox_linux_fixme">
-<td class="title">frame-evaluate.spec.ts - should work in iframes that failed initial navigation</td>
+<tr class="chromium_win32_fixme chromium_darwin_fixme chromium_linux_fixme">
+<td class="title">frame-evaluate.spec.ts - should work in iframes that interrupted initial javascript url navigation</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -376,6 +364,18 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
+<tr class="chromium_win32_fixme chromium_darwin_fixme chromium_linux_fixme">
+<td class="title">oopif.spec.ts - should get the proper viewport</td>
+<td class="chromium_win32"></td>
+<td class="chromium_darwin"></td>
+<td class="chromium_linux"></td>
+<td class="firefox_win32"></td>
+<td class="firefox_darwin"></td>
+<td class="firefox_linux"></td>
+<td class="webkit_win32"></td>
+<td class="webkit_darwin"></td>
+<td class="webkit_linux"></td>
+</tr>
 <tr class="firefox_win32_fail firefox_darwin_fail firefox_linux_fail">
 <td class="title">page-basic.spec.ts - frame.focus should work multiple times</td>
 <td class="chromium_win32"></td>
@@ -400,8 +400,56 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
-<tr class="firefox_win32_flaky">
+<tr class="firefox_win32_flaky firefox_win32_flaky">
 <td class="title">page-event-crash.spec.ts - should be able to close context when page crashes</td>
+<td class="chromium_win32"></td>
+<td class="chromium_darwin"></td>
+<td class="chromium_linux"></td>
+<td class="firefox_win32"></td>
+<td class="firefox_darwin"></td>
+<td class="firefox_linux"></td>
+<td class="webkit_win32"></td>
+<td class="webkit_darwin"></td>
+<td class="webkit_linux"></td>
+</tr>
+<tr class="firefox_win32_flaky">
+<td class="title">page-event-crash.spec.ts - should cancel navigation when page crashes</td>
+<td class="chromium_win32"></td>
+<td class="chromium_darwin"></td>
+<td class="chromium_linux"></td>
+<td class="firefox_win32"></td>
+<td class="firefox_darwin"></td>
+<td class="firefox_linux"></td>
+<td class="webkit_win32"></td>
+<td class="webkit_darwin"></td>
+<td class="webkit_linux"></td>
+</tr>
+<tr class="firefox_win32_flaky">
+<td class="title">page-event-crash.spec.ts - should cancel waitForEvent when page crashes</td>
+<td class="chromium_win32"></td>
+<td class="chromium_darwin"></td>
+<td class="chromium_linux"></td>
+<td class="firefox_win32"></td>
+<td class="firefox_darwin"></td>
+<td class="firefox_linux"></td>
+<td class="webkit_win32"></td>
+<td class="webkit_darwin"></td>
+<td class="webkit_linux"></td>
+</tr>
+<tr class="firefox_win32_flaky">
+<td class="title">page-event-crash.spec.ts - should emit crash event when page crashes</td>
+<td class="chromium_win32"></td>
+<td class="chromium_darwin"></td>
+<td class="chromium_linux"></td>
+<td class="firefox_win32"></td>
+<td class="firefox_darwin"></td>
+<td class="firefox_linux"></td>
+<td class="webkit_win32"></td>
+<td class="webkit_darwin"></td>
+<td class="webkit_linux"></td>
+</tr>
+<tr class="firefox_win32_flaky">
+<td class="title">page-event-crash.spec.ts - should throw on any action after page crashes</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -472,18 +520,6 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
-<tr class="webkit_linux_fixme firefox_win32_fixme firefox_darwin_fixme firefox_linux_fixme">
-<td class="title">page-screenshot.spec.ts - should work for webgl</td>
-<td class="chromium_win32"></td>
-<td class="chromium_darwin"></td>
-<td class="chromium_linux"></td>
-<td class="firefox_win32"></td>
-<td class="firefox_darwin"></td>
-<td class="firefox_linux"></td>
-<td class="webkit_win32"></td>
-<td class="webkit_darwin"></td>
-<td class="webkit_linux"></td>
-</tr>
 <tr class="firefox_win32_fail firefox_darwin_fail firefox_linux_fail">
 <td class="title">page-screenshot.spec.ts - should allow transparency</td>
 <td class="chromium_win32"></td>
@@ -496,8 +532,8 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
-<tr class="webkit_win32_fail webkit_darwin_fail webkit_linux_fail firefox_linux_flaky">
-<td class="title">permissions.spec.ts - should trigger permission onchange</td>
+<tr class="webkit_linux_fixme firefox_win32_fixme firefox_darwin_fixme firefox_linux_fixme">
+<td class="title">page-screenshot.spec.ts - should work for webgl</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -520,6 +556,18 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
+<tr class="webkit_win32_fail webkit_darwin_fail webkit_linux_fail firefox_linux_flaky">
+<td class="title">permissions.spec.ts - should trigger permission onchange</td>
+<td class="chromium_win32"></td>
+<td class="chromium_darwin"></td>
+<td class="chromium_linux"></td>
+<td class="firefox_win32"></td>
+<td class="firefox_darwin"></td>
+<td class="firefox_linux"></td>
+<td class="webkit_win32"></td>
+<td class="webkit_darwin"></td>
+<td class="webkit_linux"></td>
+</tr>
 <tr class="webkit_darwin_flaky">
 <td class="title">proxy.spec.ts - should use socks proxy</td>
 <td class="chromium_win32"></td>
@@ -532,8 +580,8 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
-<tr class="chromium_win32_flaky chromium_darwin_flaky chromium_linux_flaky webkit_win32_flaky webkit_darwin_flaky webkit_linux_flaky firefox_win32_flaky firefox_darwin_flaky firefox_linux_flaky">
-<td class="title">screencast.spec.ts - should capture navigation</td>
+<tr class="webkit_win32_fail">
+<td class="title">screencast.spec.ts - should capture css transformation</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
@@ -544,8 +592,8 @@ tr.webkit_linux_fixme td.webkit_linux { background-color: #f44336; }
 <td class="webkit_darwin"></td>
 <td class="webkit_linux"></td>
 </tr>
-<tr class="webkit_win32_fail">
-<td class="title">screencast.spec.ts - should capture css transformation</td>
+<tr class="chromium_win32_flaky chromium_darwin_flaky chromium_linux_flaky webkit_win32_flaky webkit_darwin_flaky webkit_linux_flaky firefox_win32_flaky firefox_darwin_flaky firefox_linux_flaky">
+<td class="title">screencast.spec.ts - should capture navigation</td>
 <td class="chromium_win32"></td>
 <td class="chromium_darwin"></td>
 <td class="chromium_linux"></td>
