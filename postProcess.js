@@ -6,8 +6,8 @@ const report = new Map();
 const data = JSON.parse(fs.readFileSync('status.json'));
 dumpTests(data);
 
-function parametersString(configuration) {
-  return configuration.map(c => `${c.value}`).join('_');
+function parametersString(parameters) {
+  return `${parameters['browserName']}_${parameters['platform']}`;
 }
 
 function dumpTests(suite) {
@@ -19,16 +19,14 @@ function dumpTests(suite) {
     for (const test of spec.tests) {
       const configuration = parametersString(test.parameters);
       const key = path.basename(spec.file) + ' - ' + spec.title;
-      for (const run of test.runs) {
-        for (const annotation of run.annotations) {
-          if (annotation.type && annotation.type !== 'skip' && annotation.type !== 'slow') {
-            let list = report.get(key);
-            if (!list) {
-              list = [];
-              report.set(key, list);
-            }
-            list.push(configuration + '_' + annotation.type);
+      for (const annotation of test.annotations) {
+        if (annotation.type && annotation.type !== 'skip' && annotation.type !== 'slow') {
+          let list = report.get(key);
+          if (!list) {
+            list = [];
+            report.set(key, list);
           }
+          list.push(configuration + '_' + annotation.type);
         }
       }
     }

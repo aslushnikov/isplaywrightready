@@ -15,7 +15,7 @@ fi
 
 npm ci
 npm run build
-PWRUNNER_JSON_REPORT=../status.json PWTESTREPORT=1 npm run test -- --trial-run --reporter=json
+PWRUNNER_JSON_REPORT=../status.json PWTESTREPORT=1 npm run test -- --list --reporter=json
 cd ..
 node postProcess.js > tests.html
 
