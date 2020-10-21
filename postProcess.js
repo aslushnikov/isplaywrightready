@@ -67,4 +67,3 @@ for (const key of keys) {
 }
 console.log('</table>');
 console.log(`<hr></hr>`);
-console.log(`<div>${new Date()}</div>`);
